@@ -1,7 +1,8 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { changeName } from "../store";
+import {  addCount } from "../store";
+import { changeName } from "../store/userSlice";
 
 export default function Cart() {
   let state = useSelector((state) => {
@@ -9,20 +10,10 @@ export default function Cart() {
   });
   let dispatch= useDispatch()
 
-  // const cartItem = state.cart.map((el, i) => {
-  //   return (
-  //     <tr key={i}>
-  //       <td>{el.id}</td>
-  //       <td>{el.name}</td>
-  //       <td>{el.count}</td>
-  //       <td>변경</td>
-  //     </tr>
-  //   );
-  // });
-
   return (
     <div>
-      {state.user}의 장바구니
+      {state.user.name} {state.user.age}의 장바구니
+      <button onClick={()=> {dispatch(changeName())}}>사용자 변경</button>
       <Table>
         <thead>
           <tr>
@@ -40,7 +31,7 @@ export default function Cart() {
                 <td>{el.name}</td>
                 <td>{el.count}</td>
          
-                <td><button onClick={()=> {dispatch(changeName())}}>+</button></td>
+                <td><button onClick={()=> {dispatch(addCount(i))}}>+</button></td>
               </tr>
             );
           })}
