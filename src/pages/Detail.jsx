@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Nav } from "react-bootstrap";
+import { addItem } from "../store";
+import { useDispatch } from "react-redux";
 
 let YellowBtn = styled.button`
   background: ${(props) => props.bg};
@@ -15,7 +17,7 @@ export default function Detail(props) {
   useEffect(() => {
     let timer = setTimeout(() => {
       setShow(false);
-    }, 2000);
+    }, 7000);
 
     return () => {
       clearTimeout(timer);
@@ -48,16 +50,16 @@ export default function Detail(props) {
     return el.id == id;
   });
 
+  let dispatch = useDispatch()
+
   return (
     <div className={"container start " + fade2}>
-      {show == true ? (
-        <div className="alert alert-warning">2초 이내 구매 시 할인</div>
-      ) : (
-        ""
-      )}
-      <YellowBtn bg="pink">버튼</YellowBtn>
+      {show == true && (
+        <div className="alert alert-warning">7초 이내 구매 시 할인</div>
+      ) }
+      {/* <YellowBtn bg="pink">버튼</YellowBtn>
       <YellowBtn bg="blue">버튼</YellowBtn>
-      <NewBtn bg="pink">복사한 버튼</NewBtn>
+      <NewBtn bg="pink">복사한 버튼</NewBtn> */}
 
       <div className="row">
         <div className="col-md-6">
@@ -70,7 +72,8 @@ export default function Detail(props) {
           <h4 className="pt-5">{찾은상품.title}</h4>
           <p>{찾은상품.content}</p>
           <p>{찾은상품.price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          {/* //FIXME: 네임 부분 수정 */}
+          <button className="btn btn-danger" onClick={()=> {dispatch(addItem({ id : 1, name : 찾은상품.title , count : 1}))}}>주문하기</button>
         </div>
         {/* 인풋에 입력값이 발생하면 그 값을 set이라는 변수에 저장 */}
         <input

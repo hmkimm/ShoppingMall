@@ -1,4 +1,4 @@
-import { Navbar, Container, Nav, Row } from "react-bootstrap";
+import { Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import "./App.css";
 import data from "./data";
 import { useState } from "react";
@@ -15,10 +15,10 @@ function App() {
   const [btnShow, setBtnShow] = useState(true);
   return (
     //TODO: 아이템 배열 중간정렬
-    <div>
+    <div className="App">
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">HM Shop</Navbar.Brand>
+          <Navbar.Brand href="#home" >HM Photo Studio</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link
               onClick={() => {
@@ -35,7 +35,7 @@ function App() {
               Detail
             </Nav.Link>
 
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link onClick={()=> {navigate('/cart')}}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -45,12 +45,13 @@ function App() {
           element={
             <>
               <div className="main-bg"></div>
-              <Container>
-                <Row>
+              <div className="container">
+                <div className="row">
                   {shoes.map((el, i) => (
                     <Card key={i} shoes={shoes[i]} i={i} />
                   ))}
-                </Row>
+                </div>
+
                 <button
                   onClick={() => {
                     setBtnClick(btnClick + 1);
@@ -83,19 +84,18 @@ function App() {
                           //FIXME: 로딩 중 유아이 없애기
                         });
                     } else {
-                      alert("불러올 상품이 없습니다.");
+                      alert("더 많은 사진 업데이트 예정입니다!");
                     }
                   }}
                 >
-                  더 보기 {btnClick}
+                  더 보기
                 </button>
-              </Container>
+              </div>
             </>
           }
         />
         //FIXME: 3번 누르면 버튼 안보이게
         {/* {btnClick==3 ? "" : setBtnShow(false)} */}
-
         <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<div>멤버임</div>} />

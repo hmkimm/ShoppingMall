@@ -11,7 +11,7 @@ export default function Cart() {
   let dispatch= useDispatch()
 
   return (
-    <div>
+    <div className="cart-style">
       {state.user.name} {state.user.age}의 장바구니
       <button onClick={()=> {dispatch(changeName())}}>사용자 변경</button>
       <Table>
@@ -31,7 +31,7 @@ export default function Cart() {
                 <td>{el.name}</td>
                 <td>{el.count}</td>
          
-                <td><button onClick={()=> {dispatch(addCount(i))}}>+</button></td>
+                <td><button onClick={()=> {dispatch(addCount(state.cart[i].id))}}>+</button></td>
               </tr>
             );
           })}
