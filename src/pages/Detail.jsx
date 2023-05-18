@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { json, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { Nav } from "react-bootstrap";
 import { addItem } from "../store";
@@ -13,6 +13,8 @@ let YellowBtn = styled.button`
 let NewBtn = styled(YellowBtn)`
   border-radius: 10px;
 `;
+
+
 export default function Detail(props) {
   useEffect(() => {
     let timer = setTimeout(() => {
@@ -45,12 +47,25 @@ export default function Detail(props) {
   }, [num]);
   //num이 변할때만 useEffect가 실행되게
 
+
+  
   let { id } = useParams();
   let 찾은상품 = props.shoes.find((el) => {
     return el.id == id;
   });
 
   let dispatch = useDispatch()
+  
+  useEffect(()=>{
+    let 꺼낸거 = localStorage.getItem('watched')
+    꺼낸거 = JSON.parse(꺼낸거)
+    꺼낸거.push(찾은상품.id)
+    꺼낸거 = new Set(꺼낸거)
+    꺼낸거 = Array.from(꺼낸거)
+    localStorage.setItem('watched', JSON.stringify(꺼낸거))
+    
+    console.log(찾은상품, 찾은상품.id)
+  }, [])
 
   return (
     <div className={"container start " + fade2}>

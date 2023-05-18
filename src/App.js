@@ -1,7 +1,7 @@
 import { Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import "./App.css";
 import data from "./data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "./components/Card";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import Detail from "./pages/Detail";
@@ -9,16 +9,23 @@ import axios from "axios";
 import Cart from "./pages/Cart";
 
 function App() {
+  useEffect(() => {
+    if (!localStorage.getItem("watched")) {
+      localStorage.setItem("watched", JSON.stringify([]));
+    }
+  }, []);
+
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
   const [btnClick, setBtnClick] = useState(0);
   const [btnShow, setBtnShow] = useState(true);
+
   return (
     //TODO: 아이템 배열 중간정렬
     <div className="App">
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home" >HM Photo Studio</Navbar.Brand>
+          <Navbar.Brand href="#home">HM Photo Studio</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link
               onClick={() => {
@@ -35,7 +42,13 @@ function App() {
               Detail
             </Nav.Link>
 
-            <Nav.Link onClick={()=> {navigate('/cart')}}>Cart</Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate("/cart");
+              }}
+            >
+              Cart
+            </Nav.Link>
           </Nav>
         </Container>
       </Navbar>
