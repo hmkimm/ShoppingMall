@@ -7,6 +7,7 @@ import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import Detail from "./pages/Detail";
 import axios from "axios";
 import Cart from "./pages/Cart";
+import Loading from "./components/Loading";
 
 function App() {
   useEffect(() => {
@@ -15,13 +16,20 @@ function App() {
     }
   }, []);
 
+  useEffect(()=> {
+setTimeout(() => {
+  setLoadShow(false)
+}, 500);
+  }, [<Loading/>])
+
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
   const [btnClick, setBtnClick] = useState(0);
   const [btnShow, setBtnShow] = useState(true);
+  const [loadShow, setLoadShow] = useState(false)
 
   return (
-    //TODO: 아이템 배열 중간정렬
+    //TODO: 아이템 배열 중간정렬 ==> 완료
     <div className="App">
       <Navbar bg="dark" variant="dark">
         <Container>
@@ -59,31 +67,39 @@ function App() {
             <>
               <div className="main-bg"></div>
               <div className="container">
+                {loadShow && <Loading/>}
                 <div className="row">
                   {shoes.map((el, i) => (
                     <Card key={i} shoes={shoes[i]} i={i} />
                   ))}
+              
                 </div>
 
                 <button
                   onClick={() => {
                     setBtnClick(btnClick + 1);
-                    //FIXME: 로딩 중 유아이 띄우기
+              
+                  
                     console.log("클릭횟수", btnClick);
                     if (btnClick + 1 == 1) {
+                      setLoadShow(true)
+                 
                       console.log("한번 클릭", btnClick);
+                     
                       axios
                         .get("https://codingapple1.github.io/shop/data2.json")
                         .then((result) => {
                           let copy = [...shoes, ...result.data];
                           setShoes(copy);
+                  
+                     
                         })
-                        //FIXME: 로딩 중 유아이 없애기
                         .catch(() => {
+                          setLoadShow(false)
                           console.log("실패했습니다");
-                          //FIXME: 로딩 중 유아이 없애기
                         });
                     } else if (btnClick + 1 == 2) {
+                      setLoadShow(true)
                       console.log("한번 클릭", btnClick);
                       axios
                         .get("https://codingapple1.github.io/shop/data3.json")
@@ -91,10 +107,8 @@ function App() {
                           let copy = [...shoes, ...result.data];
                           setShoes(copy);
                         })
-                        //FIXME: 로딩 중 유아이 없애기
                         .catch(() => {
                           console.log("실패했습니다");
-                          //FIXME: 로딩 중 유아이 없애기
                         });
                     } else {
                       alert("더 많은 사진 업데이트 예정입니다!");

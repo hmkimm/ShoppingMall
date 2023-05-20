@@ -60,8 +60,8 @@ export default function Detail(props) {
     let 꺼낸거 = localStorage.getItem('watched')
     꺼낸거 = JSON.parse(꺼낸거)
     꺼낸거.push(찾은상품.id)
-    꺼낸거 = new Set(꺼낸거)
-    꺼낸거 = Array.from(꺼낸거)
+    꺼낸거 = new Set(꺼낸거) //set함수로 만들기(중복 제거 된 array)
+    꺼낸거 = Array.from(꺼낸거) //다시 array 형태로 바꾸기
     localStorage.setItem('watched', JSON.stringify(꺼낸거))
     
     console.log(찾은상품, 찾은상품.id)
