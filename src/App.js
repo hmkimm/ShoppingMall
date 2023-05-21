@@ -1,13 +1,15 @@
 import { Navbar, Container, Nav, Row, Col } from "react-bootstrap";
 import "./App.css";
 import data from "./data";
-import { useEffect, useState } from "react";
+import { lazy, useEffect, useState, Suspense } from "react";
 import Card from "./components/Card";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
-import Detail from "./pages/Detail";
 import axios from "axios";
-import Cart from "./pages/Cart";
+// import Detail from "./pages/Detail";
+// import Cart from "./pages/Cart";
 import Loading from "./components/Loading";
+const Cart = lazy(() => import("./pages/Cart")); //필요할 때 렌더링
+const Detail = lazy(() => import("./pages/Detail"));
 
 function App() {
   useEffect(() => {
@@ -16,17 +18,17 @@ function App() {
     }
   }, []);
 
-  useEffect(()=> {
-setTimeout(() => {
-  setLoadShow(false)
-}, 500);
-  }, [<Loading/>])
+  useEffect(() => {
+    setTimeout(() => {
+      setLoadShow(false);
+    }, 500);
+  }, [<Loading />]);
 
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
   const [btnClick, setBtnClick] = useState(0);
   const [btnShow, setBtnShow] = useState(true);
-  const [loadShow, setLoadShow] = useState(false)
+  const [loadShow, setLoadShow] = useState(false);
 
   return (
     //TODO: 아이템 배열 중간정렬 ==> 완료
@@ -60,81 +62,79 @@ setTimeout(() => {
           </Nav>
         </Container>
       </Navbar>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <div className="main-bg"></div>
-              <div className="container">
-                {loadShow && <Loading/>}
-                <div className="row">
-                  {shoes.map((el, i) => (
-                    <Card key={i} shoes={shoes[i]} i={i} />
-                  ))}
-              
-                </div>
+      <Suspense fallback={<>로딩 중! 잠시만 기다려 주세요</>}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <div className="main-bg"></div>
+                <div className="container">
+                  {loadShow && <Loading />}
+                  <div className="row">
+                    {shoes.map((el, i) => (
+                      <Card key={i} shoes={shoes[i]} i={i} />
+                    ))}
+                  </div>
 
-                <button
-                  onClick={() => {
-                    setBtnClick(btnClick + 1);
-              
-                  
-                    console.log("클릭횟수", btnClick);
-                    if (btnClick + 1 == 1) {
-                      setLoadShow(true)
-                 
-                      console.log("한번 클릭", btnClick);
-                     
-                      axios
-                        .get("https://codingapple1.github.io/shop/data2.json")
-                        .then((result) => {
-                          let copy = [...shoes, ...result.data];
-                          setShoes(copy);
-                  
-                     
-                        })
-                        .catch(() => {
-                          setLoadShow(false)
-                          console.log("실패했습니다");
-                        });
-                    } else if (btnClick + 1 == 2) {
-                      setLoadShow(true)
-                      console.log("한번 클릭", btnClick);
-                      axios
-                        .get("https://codingapple1.github.io/shop/data3.json")
-                        .then((result) => {
-                          let copy = [...shoes, ...result.data];
-                          setShoes(copy);
-                        })
-                        .catch(() => {
-                          console.log("실패했습니다");
-                        });
-                    } else {
-                      alert("더 많은 사진 업데이트 예정입니다!");
-                    }
-                  }}
-                >
-                  더 보기
-                </button>
-              </div>
-            </>
-          }
-        />
-        //FIXME: 3번 누르면 버튼 안보이게
-        {/* {btnClick==3 ? "" : setBtnShow(false)} */}
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
-        <Route path="/about" element={<About />}>
-          <Route path="member" element={<div>멤버임</div>} />
-          <Route path="location" element={<div>회사위치</div>} />
-        </Route>
-        <Route path="/event" element={<Event />}>
-          <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
-          <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
-        </Route>
-        <Route path="*" element={<div>없는 페이지</div>} />
-        <Route path="/cart" element={<Cart />} />
-      </Routes>
+                  <button
+                    onClick={() => {
+                      setBtnClick(btnClick + 1);
+
+                      console.log("클릭횟수", btnClick);
+                      if (btnClick + 1 == 1) {
+                        setLoadShow(true);
+
+                        console.log("한번 클릭", btnClick);
+
+                        axios
+                          .get("https://codingapple1.github.io/shop/data2.json")
+                          .then((result) => {
+                            let copy = [...shoes, ...result.data];
+                            setShoes(copy);
+                          })
+                          .catch(() => {
+                            setLoadShow(false);
+                            console.log("실패했습니다");
+                          });
+                      } else if (btnClick + 1 == 2) {
+                        setLoadShow(true);
+                        console.log("한번 클릭", btnClick);
+                        axios
+                          .get("https://codingapple1.github.io/shop/data3.json")
+                          .then((result) => {
+                            let copy = [...shoes, ...result.data];
+                            setShoes(copy);
+                          })
+                          .catch(() => {
+                            console.log("실패했습니다");
+                          });
+                      } else {
+                        alert("더 많은 사진이 업데이트 예정입니다!");
+                      }
+                    }}
+                  >
+                    더 보기
+                  </button>
+                </div>
+              </>
+            }
+          />
+          //FIXME: 3번 누르면 버튼 안보이게
+          {/* {btnClick==3 ? "" : setBtnShow(false)} */}
+          <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+          <Route path="/about" element={<About />}>
+            <Route path="member" element={<div>멤버임</div>} />
+            <Route path="location" element={<div>회사위치</div>} />
+          </Route>
+          <Route path="/event" element={<Event />}>
+            <Route path="one" element={<div>첫 주문시 양배추즙 서비스</div>} />
+            <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
+          </Route>
+          <Route path="*" element={<div>없는 페이지</div>} />
+          <Route path="/cart" element={<Cart />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
