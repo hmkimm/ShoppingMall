@@ -1,19 +1,57 @@
-import React from "react";
+import React, { useState, memo, useMemo, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import {  addCount } from "../store";
+import { addCount } from "../store";
 import { changeName } from "../store/userSlice";
+
+let Child = memo(function () {
+  //꼭 필요할때만(props가 변할때만) 재렌더링 하자 (오래거리리는 컴포넌트 memo로 감싸놓자)
+
+  console.log("재렌더딩 되는중");
+  return <div>자식임</div>;
+});
 
 export default function Cart() {
   let state = useSelector((state) => {
     return state;
   });
-  let dispatch= useDispatch()
+  let dispatch = useDispatch();
+  let [count, setCount] = useState(0);
 
+  let [age, setAge] = useState(20);
+  useEffect(()=> {
+if(count < 3 && count != 0) {
+  setAge(age +1)
+}
+  }, [count])
   return (
     <div className="cart-style">
+      <div>안녕하십니까 전 {age}</div>
+      <button
+        onClick={() => {
+       
+            setCount(count + 1);
+      
+        }}
+      >
+        누르면 한 살 먹기
+      </button>
+      <Child count={count}></Child>
+      <button
+        onClick={() => {
+          setCount(count + 1);
+        }}
+      >
+        +
+      </button>
       {state.user.name} {state.user.age}의 장바구니
-      <button onClick={()=> {dispatch(changeName())}}>사용자 변경</button>
+      <button
+        onClick={() => {
+          dispatch(changeName());
+        }}
+      >
+        사용자 변경
+      </button>
       <Table>
         <thead>
           <tr>
@@ -30,8 +68,16 @@ export default function Cart() {
                 <td>{el.id}</td>
                 <td>{el.name}</td>
                 <td>{el.count}</td>
-         
-                <td><button onClick={()=> {dispatch(addCount(state.cart[i].id))}}>+</button></td>
+
+                <td>
+                  <button
+                    onClick={() => {
+                      dispatch(addCount(state.cart[i].id));
+                    }}
+                  >
+                    +
+                  </button>
+                </td>
               </tr>
             );
           })}

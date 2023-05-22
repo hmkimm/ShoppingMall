@@ -14,7 +14,7 @@ let cart = createSlice({
     { id: 2, name: "Grey Yordan", count: 1 },
   ],
   reducers: {
-    addCount(state, action) {
+    addCount(state, action) { //action은 state변경 주문서
       let 번호 = state.findIndex((item) => {
         return item.id === action.payload;
       });
@@ -26,7 +26,7 @@ let cart = createSlice({
   },
 });
 
-export default configureStore({
+export default configureStore({ //object를 받음
   reducer: {
     user: user.reducer,
     stock: stock.reducer,

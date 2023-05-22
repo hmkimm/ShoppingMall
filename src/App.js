@@ -8,6 +8,7 @@ import axios from "axios";
 // import Detail from "./pages/Detail";
 // import Cart from "./pages/Cart";
 import Loading from "./components/Loading";
+import Btn from "./components/Btn";
 const Cart = lazy(() => import("./pages/Cart")); //필요할 때 렌더링
 const Detail = lazy(() => import("./pages/Detail"));
 
@@ -24,10 +25,19 @@ function App() {
     }, 500);
   }, [<Loading />]);
 
-  let [shoes, setShoes] = useState(data);
-  let navigate = useNavigate();
   const [btnClick, setBtnClick] = useState(0);
   const [btnShow, setBtnShow] = useState(true);
+
+  useEffect(() => {
+    if (btnClick === 3) {
+      setBtnShow(false);
+    }
+  }, [btnClick]);
+
+  let [shoes, setShoes] = useState(data);
+  let navigate = useNavigate();
+
+
   const [loadShow, setLoadShow] = useState(false);
 
   return (
@@ -77,7 +87,9 @@ function App() {
                     ))}
                   </div>
 
+{btnShow && 
                   <button
+                    btnShow={btnShow}
                     onClick={() => {
                       setBtnClick(btnClick + 1);
 
@@ -115,13 +127,15 @@ function App() {
                     }}
                   >
                     더 보기
-                  </button>
+                  </button> }
+
+                  {/* <Btn /> */}
                 </div>
               </>
             }
           />
           //FIXME: 3번 누르면 버튼 안보이게
-          {/* {btnClick==3 ? "" : setBtnShow(false)} */}
+          {/* btnShow && ? "" :  */}
           <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
           <Route path="/about" element={<About />}>
             <Route path="member" element={<div>멤버임</div>} />
