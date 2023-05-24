@@ -6,7 +6,7 @@ width: 1300px;
 height: 600px;
 background-color: #ebebeb;
 /* opacity: 0.9; */
-border-radius: 10px;
+border-radius: 15px;
 margin : 0 auto;
 text-align: center;
 font-size: 60px;

@@ -10,10 +10,10 @@ opacity: 0.8;
 font-size: 18px;
 `
 
-export default function Btn() {
+export default function Btn(props) {
   return (
   <>
-  {<CustomBtn>더 보기</CustomBtn>}
+  {<CustomBtn>{props.text}</CustomBtn>}
   </>
   )
 }

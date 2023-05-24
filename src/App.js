@@ -37,7 +37,6 @@ function App() {
   let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
 
-
   const [loadShow, setLoadShow] = useState(false);
 
   return (
@@ -87,49 +86,54 @@ function App() {
                     ))}
                   </div>
 
-{btnShow && 
-                  <button
-                    btnShow={btnShow}
-                    onClick={() => {
-                      setBtnClick(btnClick + 1);
+                  {/* btnshow가 true이면 버튼 보여주기 */}
+                  {btnShow && (
+                    <button 
+                      onClick={() => {
+                        setBtnClick(btnClick + 1);
 
-                      console.log("클릭횟수", btnClick);
-                      if (btnClick + 1 == 1) {
-                        setLoadShow(true);
+                        console.log("클릭횟수", btnClick);
+                        if (btnClick + 1 == 1) {
+                          setLoadShow(true);
 
-                        console.log("한번 클릭", btnClick);
+                          console.log("한번 클릭", btnClick);
 
-                        axios
-                          .get("https://codingapple1.github.io/shop/data2.json")
-                          .then((result) => {
-                            let copy = [...shoes, ...result.data];
-                            setShoes(copy);
-                          })
-                          .catch(() => {
-                            setLoadShow(false);
-                            console.log("실패했습니다");
-                          });
-                      } else if (btnClick + 1 == 2) {
-                        setLoadShow(true);
-                        console.log("한번 클릭", btnClick);
-                        axios
-                          .get("https://codingapple1.github.io/shop/data3.json")
-                          .then((result) => {
-                            let copy = [...shoes, ...result.data];
-                            setShoes(copy);
-                          })
-                          .catch(() => {
-                            console.log("실패했습니다");
-                          });
-                      } else {
-                        alert("더 많은 사진이 업데이트 예정입니다!");
-                      }
-                    }}
-                  >
-                    더 보기
-                  </button> }
+                          axios
+                            .get(
+                              "https://codingapple1.github.io/shop/data2.json"
+                            )
+                            .then((result) => {
+                              let copy = [...shoes, ...result.data];
+                              setShoes(copy);
+                            })
+                            .catch(() => {
+                              setLoadShow(false);
+                              console.log("실패했습니다");
+                            });
+                        } else if (btnClick + 1 == 2) {
+                          setLoadShow(true);
+                          console.log("한번 클릭", btnClick);
+                          axios
+                            .get(
+                              "https://codingapple1.github.io/shop/data3.json"
+                            )
+                            .then((result) => {
+                              let copy = [...shoes, ...result.data];
+                              setShoes(copy);
+                            })
+                            .catch(() => {
+                              console.log("실패했습니다");
+                            });
+                        } else {
+                          alert("더 많은 사진이 업데이트 예정입니다!");
+                        }
+                      }}
+                    >
+                      더 보기
+                    </button>
+                  )}
 
-                  {/* <Btn /> */}
+                  {/* <Btn text='테스트'></Btn> */}
                 </div>
               </>
             }
