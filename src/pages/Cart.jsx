@@ -24,6 +24,22 @@ if(count < 3 && count != 0) {
   setAge(age +1)
 }
   }, [count])
+
+  //TODO: 장바구니에 있는 정보 로컬스토리지에 저장
+  // let 장바구니 = []
+  // let products = {
+  //   id : Date.now(),
+  //   name : state.cart.name,
+  //   count : state.cart.count,
+  // }
+  //   useEffect(()=> {
+  //     localStorage.setItem('buy', JSON.stringify([]))
+  //   },[])
+
+const handleDel = (e) => {
+  e.target.closest("tr").remove();}
+
+
   return (
     <div className="cart-style">
       <div>안녕하십니까 전 {age}</div>
@@ -77,6 +93,7 @@ if(count < 3 && count != 0) {
                   >
                     +
                   </button>
+                  <button onClick={handleDel}>삭제</button>
                 </td>
               </tr>
             );

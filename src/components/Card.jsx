@@ -12,6 +12,7 @@ function Card(props) {
       />
       <h4 className="title">{props.shoes.title}</h4>
       <p className="price">{props.shoes.price}</p>
+      <button className="cart-btn">담기</button>
     </div>
   );
 }

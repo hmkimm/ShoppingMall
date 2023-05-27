@@ -3,7 +3,7 @@
 }
 
 .main-bg {
-  height: 300px;
+  height: 310px;
   background-image: url("bg.jpeg");
   background-size: cover;
   background-position: center;
@@ -18,5 +18,8 @@
   transition: opacity 1s;
 }
 
+.more-btn {
+  margin: 30px 0;
+}
 
 

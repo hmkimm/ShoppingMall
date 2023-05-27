@@ -40,7 +40,7 @@ function App() {
   const [loadShow, setLoadShow] = useState(false);
 
   return (
-    //TODO: 아이템 배열 중간정렬 ==> 완료
+
     <div className="App">
       <Navbar bg="dark" variant="dark">
         <Container>
@@ -85,10 +85,10 @@ function App() {
                       <Card key={i} shoes={shoes[i]} i={i} />
                     ))}
                   </div>
-
+//note: 사진 로딩 중에 창 띄우기
                   {/* btnshow가 true이면 버튼 보여주기 */}
                   {btnShow && (
-                    <button 
+                    <button className="more-btn"
                       onClick={() => {
                         setBtnClick(btnClick + 1);
 
