@@ -44,7 +44,7 @@ function App() {
     <div className="App">
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">HM Photo Studio</Navbar.Brand>
+          <Navbar.Brand href="#home" onClick={()=> {navigate('/')}}>HM Photo Studio</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link
               onClick={() => {
@@ -85,7 +85,7 @@ function App() {
                       <Card key={i} shoes={shoes[i]} i={i} />
                     ))}
                   </div>
-//note: 사진 로딩 중에 창 띄우기
+{/* //note: 사진 로딩 중에 창 띄우기 */}
                   {/* btnshow가 true이면 버튼 보여주기 */}
                   {btnShow && (
                     <button className="more-btn"
