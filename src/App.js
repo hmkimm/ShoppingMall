@@ -138,7 +138,7 @@ function App() {
               </>
             }
           />
-          //FIXME: 3번 누르면 버튼 안보이게
+          //FIXME: 3번 누르면 버튼 안보이게 - 완료
           {/* btnShow && ? "" :  */}
           <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
           <Route path="/about" element={<About />}>
